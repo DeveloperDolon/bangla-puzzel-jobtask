@@ -14,10 +14,72 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import logo from "../assets/pngwing.com (3).png";
 import Button from '@mui/material/Button';
 import { LocalMall } from '@mui/icons-material';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import Drawer from '@mui/material/Drawer';
 
 
 
 export default function PrimarySearchAppBar() {
+
+
+    const [state, setState] = React.useState({
+        top: false,
+        left: false,
+        bottom: false,
+        right: false,
+    });
+
+    const toggleDrawer = (anchor, open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+
+        setState({ ...state, [anchor]: open });
+    };
+
+    const list = (anchor) => (
+        <Box
+            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+            role=""
+        onClick={toggleDrawer(anchor, false)}
+        // onKeyDown={toggleDrawer(anchor, false)}
+        >
+            <List>
+                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                    <ListItem key={text} disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                            </ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+            <Divider />
+            <List>
+                {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                    <ListItem key={text} disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                            </ListItemIcon>
+                            <ListItemText primary={text} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+        </Box>
+    );
+
+
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -147,17 +209,36 @@ export default function PrimarySearchAppBar() {
                         <Box sx={{ flexGrow: 1 }} />
                         <Box sx={{ display: { xs: 'none', md: 'flex', justifyContent: "space-between", alignItems: "center" } }}>
                             <IconButton
-                                sx={{marginRight: "15px"}}
+                                onClick={toggleDrawer("right", true)}
+                                sx={{ marginRight: "15px" }}
                                 size="large"
                                 aria-label="show 17 new notifications"
                                 color="inherit"
                             >
                                 <Badge badgeContent={17} color="error">
-                                    <LocalMall style={{fontSize: "30px"}} />
+                                    <LocalMall style={{ fontSize: "30px" }} />
                                 </Badge>
                             </IconButton>
+
                             <div>
-                                <Button variant="contained" size='medium' sx={{background: '#fd5442', fontWeight: "600", padding: "10px 40px"}}>Order Now</Button>
+                                <Drawer
+                                    variant="persistent"
+                                    sx={{
+                                        flexShrink: 0,
+                                        '& .MuiDrawer-paper': {
+                                            width: "auto",
+                                            boxSizing: 'border-box',
+                                        },
+                                    }}
+                                    anchor={"right"}
+                                    open={state["right"]}
+                                >
+                                    {list("right")}
+                                </Drawer>
+                            </div>
+
+                            <div>
+                                <Button variant="contained" size='medium' sx={{ background: '#fd5442', fontWeight: "600", padding: "10px 40px" }}>Order Now</Button>
                             </div>
                         </Box>
                         <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
