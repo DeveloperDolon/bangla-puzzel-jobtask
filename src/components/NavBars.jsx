@@ -26,7 +26,7 @@ import Drawer from '@mui/material/Drawer';
 
 
 export default function PrimarySearchAppBar() {
-
+    const [open, setOpen] = React.useState(true);
 
     const [state, setState] = React.useState({
         top: false,
@@ -35,9 +35,16 @@ export default function PrimarySearchAppBar() {
         right: false,
     });
 
-    const toggleDrawer = (anchor, open) => (event) => {
+
+    const toggleDrawer = (anchor) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
+        }
+        
+        if(event?.target?.parentNode?.offsetParent?.id === "cart-btn" || event?.target?.id === "cart-btn" || event?.target?.parentNode?.parentNode?.offsetParent?.id === "cart-btn") {
+            setOpen(!open);
+        } else if(open === false) {
+            setOpen(true);
         }
 
         setState({ ...state, [anchor]: open });
@@ -47,7 +54,7 @@ export default function PrimarySearchAppBar() {
         <Box
             sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
             role=""
-        onClick={toggleDrawer(anchor, false)}
+            onClick={toggleDrawer(anchor)}
         // onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
@@ -209,7 +216,8 @@ export default function PrimarySearchAppBar() {
                         <Box sx={{ flexGrow: 1 }} />
                         <Box sx={{ display: { xs: 'none', md: 'flex', justifyContent: "space-between", alignItems: "center" } }}>
                             <IconButton
-                                onClick={toggleDrawer("right", true)}
+                                id='cart-btn'
+                                onClick={toggleDrawer("right")}
                                 sx={{ marginRight: "15px" }}
                                 size="large"
                                 aria-label="show 17 new notifications"
