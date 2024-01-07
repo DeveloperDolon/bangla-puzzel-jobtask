@@ -4,8 +4,16 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useContext } from "react";
+import { AuthContext } from "../../contextApi/AuthProvider";
 
 const ProductsCards = () => {
+    const {setCart} = useContext(AuthContext);
+
+    const handleAddToCart = (item) => {
+        item.quantity = 1;
+        console.log(item);
+    }
 
     const foodsItems = [
         {
@@ -58,7 +66,7 @@ const ProductsCards = () => {
                         </CardContent>
 
                         <div className="p-4 space-y-4">
-                            <Button variant="contained" sx={{width: "100%", background: "#fd5442"}}>Add To Order</Button>
+                            <Button onClick={() => handleAddToCart(item)} variant="contained" sx={{width: "100%", background: "#fd5442"}}>Add To Order</Button>
                             <Button variant="outlined" sx={{width: "100%", color: "#fd5442", border: "2px solid #fd5442", fontWeight: "600"}}>Customize</Button>
                         </div>
                     </Card>)
