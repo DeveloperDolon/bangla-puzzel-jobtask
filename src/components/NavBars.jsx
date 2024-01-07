@@ -22,33 +22,27 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import Drawer from '@mui/material/Drawer';
+import { AuthContext } from '../contextApi/AuthProvider';
 
 
 
 export default function PrimarySearchAppBar() {
-    const [open, setOpen] = React.useState(true);
-
-    const [state, setState] = React.useState({
-        top: false,
-        left: false,
-        bottom: false,
-        right: false,
-    });
+    const { cart, state, toggleDrawer} = React.useContext(AuthContext);
 
 
-    const toggleDrawer = (anchor) => (event) => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return;
-        }
+    // const toggleDrawer = (anchor) => (event) => {
+    //     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    //         return;
+    //     }
         
-        if(event?.target?.parentNode?.offsetParent?.id === "cart-btn" || event?.target?.id === "cart-btn" || event?.target?.parentNode?.parentNode?.offsetParent?.id === "cart-btn") {
-            setOpen(!open);
-        } else if(open === false) {
-            setOpen(true);
-        }
+    //     if(event?.target?.parentNode?.offsetParent?.id === "cart-btn" || event?.target?.id === "cart-btn" || event?.target?.parentNode?.parentNode?.offsetParent?.id === "cart-btn") {
+    //         setOpen(!open);
+    //     } else if(open === false) {
+    //         setOpen(true);
+    //     }
 
-        setState({ ...state, [anchor]: open });
-    };
+    //     setState({ ...state, [anchor]: open });
+    // };
 
     const list = (anchor) => (
         <Box
@@ -84,8 +78,6 @@ export default function PrimarySearchAppBar() {
             </List>
         </Box>
     );
-
-
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -223,7 +215,7 @@ export default function PrimarySearchAppBar() {
                                 aria-label="show 17 new notifications"
                                 color="inherit"
                             >
-                                <Badge badgeContent={17} color="error">
+                                <Badge badgeContent={cart?.length} color="error">
                                     <LocalMall style={{ fontSize: "30px" }} />
                                 </Badge>
                             </IconButton>

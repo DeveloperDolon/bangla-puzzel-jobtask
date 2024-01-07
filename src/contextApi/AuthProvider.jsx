@@ -3,9 +3,18 @@ import PropTypes from "prop-types";
 
 export const AuthContext = createContext();
 
-const AuthProvider = ({children}) => {
-    const [cart, setCart] = useState([]); 
+const AuthProvider = ({ children }) => {
+    const [cart, setCart] = useState([]);
     const [cartIds, setCartIds] = useState([]);
+    const [open, setOpen] = useState(true);
+
+    const [state, setState] = useState({
+        top: false,
+        left: false,
+        bottom: false,
+        right: false,
+    });
+
     const foodsItems = [
         {
             "id": "1",
@@ -30,9 +39,23 @@ const AuthProvider = ({children}) => {
         }
     ]
 
+    const toggleDrawer = (anchor) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        
+        if(event?.target?.parentNode?.offsetParent?.id === "cart-btn" || event?.target?.id === "cart-btn" || event?.target?.parentNode?.parentNode?.offsetParent?.id === "cart-btn") {
+            setOpen(!open);
+        } else if(open === false) {
+            setOpen(true);
+        }
+
+        setState({ ...state, [anchor]: open });
+    };
+
     useEffect(() => {
         const cartItems = foodsItems.filter(item => {
-            if(cartIds.includes(item?.id)) {
+            if (cartIds.includes(item?.id)) {
                 return item;
             }
         });
@@ -45,7 +68,12 @@ const AuthProvider = ({children}) => {
         setCart,
         cartIds,
         setCartIds,
-        foodsItems
+        foodsItems,
+        open,
+        setOpen,
+        toggleDrawer,
+        state, 
+        setState
     }
 
 
