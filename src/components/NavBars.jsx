@@ -14,25 +14,19 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import logo from "../assets/pngwing.com (3).png";
 import Button from '@mui/material/Button';
 import { LocalMall } from '@mui/icons-material';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import Drawer from '@mui/material/Drawer';
 import { AuthContext } from '../contextApi/AuthProvider';
+import CartProduct from './CartProduct';
 
 
 export default function PrimarySearchAppBar() {
-    const { cart, state, toggleDrawer} = React.useContext(AuthContext);
+    const { cart, state, toggleDrawer } = React.useContext(AuthContext);
 
     // const toggleDrawer = (anchor) => (event) => {
     //     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
     //         return;
     //     }
-        
+
     //     if(event?.target?.parentNode?.offsetParent?.id === "cart-btn" || event?.target?.id === "cart-btn" || event?.target?.parentNode?.parentNode?.offsetParent?.id === "cart-btn") {
     //         setOpen(!open);
     //     } else if(open === false) {
@@ -44,7 +38,7 @@ export default function PrimarySearchAppBar() {
 
     const list = (anchor) => (
         <Box
-            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 280 , background: "#fd5442", height:"100%"}}
+            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 300, background: "#fd5442", height: "100%" }}
             role=""
         // onKeyDown={toggleDrawer(anchor, false)}
         >
@@ -54,7 +48,17 @@ export default function PrimarySearchAppBar() {
                     <p className='md:text-base text-sm font-semibold'>{cart?.length} Item</p>
                 </div>
 
-                <Button id='close-btn' onClick={toggleDrawer(anchor)} variant='outlined' size='small' sx={{color: "#fd5442", border: "1px solid #fd5442"}}>Close</Button>
+                <Button id='close-btn' onClick={toggleDrawer(anchor)} variant='outlined' size='small' sx={{ color: "#fd5442", border: "1px solid #fd5442" }}>Close</Button>
+            </div>
+
+            <div className='grid grid-cols-1 p-3 gap-5'>
+                {
+                    cart?.length > 0 ? <>
+                        {
+                            cart?.map((item, idx) => <CartProduct key={idx} item={item}></CartProduct>)
+                        }
+                    </> : ""
+                }
             </div>
         </Box>
     );
