@@ -6,7 +6,7 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
     const [cartIds, setCartIds] = useState([]);
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
 
     const [state, setState] = useState({
         top: false,
@@ -40,17 +40,25 @@ const AuthProvider = ({ children }) => {
     ]
 
     const toggleDrawer = (anchor) => (event) => {
+
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
         
         if(event?.target?.parentNode?.offsetParent?.id === "cart-btn" || event?.target?.id === "cart-btn" || event?.target?.parentNode?.parentNode?.offsetParent?.id === "cart-btn") {
             setOpen(!open);
-        } else if(open === false) {
-            setOpen(true);
+            return setState({ ...state, [anchor]: !open });
         }
 
-        setState({ ...state, [anchor]: open });
+        if(event?.target?.id === "close-btn") {
+            setOpen(false);
+            return setState({ ...state, [anchor]: false });
+        }
+        
+        if(event?.target?.id === "add-to-cart") {
+            setOpen(true);
+            return setState({ ...state, [anchor]: true });
+        }
     };
 
     useEffect(() => {
@@ -62,6 +70,7 @@ const AuthProvider = ({ children }) => {
 
         setCart(cartItems);
     }, [cartIds]);
+
 
     const sharedData = {
         cart,

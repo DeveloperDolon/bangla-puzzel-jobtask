@@ -43,7 +43,7 @@ const ProductsCards = () => {
 
                         <div className="p-4 space-y-4">
                             {
-                                cartIds?.includes(item?.id) ? <Button disabled variant="contained" sx={{width: "100%", background: "#fd5442"}}>Added To Cart</Button> : <span onClick={toggleDrawer("right")} ><Button onClick={() => handleAddToCart(item?.id)} variant="contained" sx={{width: "100%", background: "#fd5442"}}>Add To Order</Button></span>
+                                cartIds?.includes(item?.id) ? <Button disabled variant="contained" sx={{width: "100%", background: "#fd5442"}}>Added To Cart</Button> : <span onClick={toggleDrawer("right")} ><Button onClick={() => handleAddToCart(item?.id)} variant="contained" id="add-to-cart" sx={{width: "100%", background: "#fd5442"}}>Add To Order</Button></span>
                             }
                             
                             <Button variant="outlined" sx={{width: "100%", color: "#fd5442", border: "2px solid #fd5442", fontWeight: "600"}}>Customize {item?.id}</Button>

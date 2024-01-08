@@ -25,10 +25,8 @@ import Drawer from '@mui/material/Drawer';
 import { AuthContext } from '../contextApi/AuthProvider';
 
 
-
 export default function PrimarySearchAppBar() {
     const { cart, state, toggleDrawer} = React.useContext(AuthContext);
-
 
     // const toggleDrawer = (anchor) => (event) => {
     //     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -46,36 +44,18 @@ export default function PrimarySearchAppBar() {
 
     const list = (anchor) => (
         <Box
-            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 280 , background: "#fd5442", height:"100%"}}
             role=""
-            onClick={toggleDrawer(anchor)}
         // onKeyDown={toggleDrawer(anchor, false)}
         >
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
+            <div className='bg-white py-4 px-5 flex justify-between'>
+                <div className='flex md:gap-4 gap-3 text-[#fd5442]'>
+                    <LocalMall></LocalMall>
+                    <p className='md:text-base text-sm font-semibold'>{cart?.length} Item</p>
+                </div>
+
+                <Button id='close-btn' onClick={toggleDrawer(anchor)} variant='outlined' size='small' sx={{color: "#fd5442", border: "1px solid #fd5442"}}>Close</Button>
+            </div>
         </Box>
     );
 
@@ -229,6 +209,7 @@ export default function PrimarySearchAppBar() {
                                             width: "auto",
                                             boxSizing: 'border-box',
                                         },
+                                        background: "#fd5442"
                                     }}
                                     anchor={"right"}
                                     open={state["right"]}
