@@ -1,6 +1,6 @@
 import { Delete } from "@mui/icons-material";
 import PropTypes from "prop-types";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contextApi/AuthProvider";
 
 const CartProduct = ({ item }) => {
@@ -8,17 +8,19 @@ const CartProduct = ({ item }) => {
     const [price, setPrice] = useState(item?.price);
     const {cart, setCart, cartIds, setCartIds} = useContext(AuthContext);
 
+    useEffect(() => {
+        setPrice(item?.price * quantity);
+    }, [quantity, item]);
+
     const handleIncrease = (item) => {
         setQuantity(quantity+1);
         item.quantity = quantity;
-        setPrice(price + item?.price);
     }
 
     const handleDecrease = (item) => {
-        if(item.quantity > 1) {
+        if(quantity > 1) {
             setQuantity(quantity-1);
             item.quantity = quantity;
-            setPrice(price - item?.price);
         }
     }
 
